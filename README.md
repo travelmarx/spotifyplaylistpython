@@ -8,20 +8,17 @@ We also show how to run this sample code as well as what went into building the 
 
 Sections:
 
-* [Build in Azure and deploy to App Service with Azure Container Registry](#build-in-azure-and-deploy-to-app-service-with-azure-container-registry) - this will cost a few dollars a month in Azure.
+* [Build in Azure and deploy to App Service with Azure Container Registry](#build-in-azure-and-deploy-to-app-service-with-azure-container-registry) - Cost: a few dollars a month in Azure.
 
-* [Build in Azure and deploy to App Service with Managed Identity to Access Azure Container Registry](#build-in-azure-and-deploy-to-app-service-with-managed-identity-to-access-azure-container-registry) - this will cost a few dollars a month in Azure.
+* [Build in Azure and deploy to App Service with Managed Identity to Access Azure Container Registry](#build-in-azure-and-deploy-to-app-service-with-managed-identity-to-access-azure-container-registry) - Cost: a few dollars a month in Azure.
 
-* [Build and deploy to App Service with Docker Hub](#build-and-deploy-to-app-service-with-docker-hub) - using free tier App Service and Docker Hub (personal) to host image won't cost anythin in Azure.
+* [Build and deploy to App Service with Docker Hub](#build-and-deploy-to-app-service-with-docker-hub) - Cost: using free tier App Service and Docker Hub (personal) to host image won't cost anything in Azure.
 
-* [Build and run locally, and optionally deploy to App Service](#build-and-run-locally-and-optionally-deploy-to-app-service)
+* [Build and run locally, and optionally deploy to App Service](#build-and-run-locally-and-optionally-deploy-to-app-service) - Cost: doesn't use Azure.
 
-* [Creating the Python web app to connect to Spotify](#creating-the-python-web-app-to-connect-to-spotify)
+* [Creating the Python web app to connect to Spotify](#creating-the-python-web-app-to-connect-to-spotify) - This discusses how this sample app was created.
 
-* [The basic code structure](#the-basic-code-structure)
-
-* [Set up project for containerization with Docker](#set-up-project-for-containerization-with-docker)
-
+* [App Service configuration](#app-service-configuration)
 
 ## Build in Azure and deploy to App Service with Azure Container Registry
 
@@ -238,14 +235,10 @@ docker build --pull \
 docker image push $REGISTRY_NAME/spotifyplaylistpython:latest
 ```
 
-When the target container registry was Azure Container Registry, we used the [az acr build](https://docs.microsoft.com/cli/azure/acr#az-acr-build) command to build and push into the registry. With Docker Hub, we'll use Docker CLI instead and do it with two separate commands, the [docker build](https://docs.docker.com/engine/reference/commandline/build/) command and tthe [docker image push](https://docs.docker.com/engine/reference/commandline/image_push/) command.
+When the target container registry was Azure Container Registry, we used the [az acr build](https://docs.microsoft.com/cli/azure/acr#az-acr-build) command to build and push into the registry. With Docker Hub, we'll use Docker CLI instead and do it with two separate commands, the [docker build](https://docs.docker.com/engine/reference/commandline/build/) command and the [docker image push](https://docs.docker.com/engine/reference/commandline/image_push/) command.
 
-You could avoid building local by referencing the GitHub repo and doing the build and push in [Azure Cloud Shell](https://docs.microsoft.com/en-us/azure/cloud-shell/overview). In that case, open a Cloud Shell and use the following:
-
-```bash
-docker build https://github.com/travelmarx/spotifyplaylistpython.git
-docker image push 
-```
+> **Note**
+> You could avoid building local by referencing the GitHub repo and doing the build and push in [Azure Cloud Shell](https://docs.microsoft.com/en-us/azure/cloud-shell/overview). In that case, open a Cloud Shell, set the variables as shown above, and then use `docker build https://github.com/travelmarx/spotifyplaylistpython.git` to build and `docker image push` to push.
 
 **Step 6.** Deploy to Azure App Service as a container coming from a public Docker Hub image. If it's a private image, use a variation of these instructions specifying username and password. See the [az webapp create](https://docs.microsoft.com/cli/azure/webapp#az-webapp-create) command documentation.
 
@@ -366,7 +359,7 @@ docker exec --interactive --tty <friendly-name-of-container> ls -al
 
 Go to `http://127.0.0.1:5002`.
 
-## Creating the Python web app to connect to Spotify
+## Create the Python web app to connect to Spotify
 
 This section is for those interested in how we arrived at the code in this repo. This is not the only way to do, rather how we muddled our way through it.
 
@@ -411,7 +404,7 @@ flask run
 
 In bash, set an environment variable like so `FLASK_APP=hello`. To enable all development features, set the `FLASK_ENV` to `development` before running.
 
-## The basic code structure
+### Create code
 
 ### Generate a secret key
 
@@ -454,15 +447,15 @@ export FLASK_APP=app.py
 flask run
 ```
 
-## Set up project for containerization with Docker
+### Set up project for containerization with Docker
 
-### Install required components
+#### Install required components
 
 Install the [Docker extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) for Visual Studio Code. You must have [Docker](https://docs.docker.com/get-docker/) on your machine as well.
 
 If you haven't done so already, create a [Docker Hub](https://hub.docker.com/repositories) repository. Using a personal account option should be enough for this tutorial and will not incur any costs. You can also use Azure Container Registry.
 
-### Add Docker files to the project and push image to a registry
+#### Add Docker files to the project and push image to a registry
 
 You can do this with Visual Studio Code extension task "Docker: Add Docker files to Workspace". Hit **F1** or **SHIFT** + **CTRL** + **P** to bring up the command palette and search for the task. Select **YES** to add composer files. This should add the following files:
 
@@ -512,28 +505,3 @@ Other configuration settings depend on where the container is pulled from. For c
 For containers pulled from Docker Hub:
 
 * DOCKER_REGISTRY_SERVER_URL=<docker-hub-account-name>
-
-
-## Docker compose (tentative)
-
-Note that the name of the image comes from the project name without slashes. Change the name in  *docker-compose.yml* file. So, when creating Docker files, be sure to include these compose files.
-
-You can build and run locally with Docker compos as well, starting in the same directory where the *docker-compose.yml* file is, run:
-
-```dos
-docker compose build
-```
-
-Again, you should have a new image in the **IMAGES** part of the Docker extension. Use the `--no-cache` option to force rebuild.
-
-To build and run the image container:
-
-```dos
-docker compose up
-```
-
-To deal with environment variables defined in an *.env* file and you created a separate compose definition, you can do something like this:
-
-```dos
-docker compose -f docker-compose.yml -f docker-compose.local.yml up
-```
