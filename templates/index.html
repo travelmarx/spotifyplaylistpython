@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+      <form method="post" action="{{url_for('index')}}">
+        <div class="col-md-6 mx-auto text-center">
+            <label for="name" class="form-label fw-bold fs-5">Enter a Spotify 
+              <em><a class="slink" href="https://clients.caster.fm/knowledgebase/110/How-to-find-Spotify-playlist-ID.html" target="_blank" \>playlist ID</a></em></label>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center align-items-center my-1">
+                <input type="text" class="form-control" id="id" name="id" style="max-width: 256px;">
+            </div>            
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center my-2">
+            <button type="submit" class="btn btn-primary btn-lg px-4 gap-3">Get playlist</button>
+            </div>            
+        </div>
+      </form>
+
+      <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+          <a class="nav-item nav-link active" id="nav-images-tab" data-bs-toggle="tab" href="#nav-images" role="tab" aria-controls="nav-images" aria-selected="true">Images</a>
+          <a class="nav-item nav-link" id="nav-text-tab" data-bs-toggle="tab" href="#nav-text" role="tab" aria-controls="nav-text" aria-selected="false">Text List</a>
+          <a class="nav-item nav-link" id="nav-info-tab" data-bs-toggle="tab" href="#nav-info" role="tab" aria-controls="nav-inf" aria-selected="false">Playlist Info</a>
+        </div>
+      </nav>
+      <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active pt-2" id="nav-images" role="tabpanel" aria-labelledby="nav-images-tab">
+          <div class="container">
+            {% for url in image_urls %}
+              <img src="{{ url }}" class="img-thumbnail" width="150px">
+            {% endfor %}          
+          </div>        
+        </div>
+        <div class="tab-pane fade pt-2" id="nav-text" role="tabpanel" aria-labelledby="nav-text-tab">
+          <div class="container">
+            <strong>Title - Artist</strong> (<a href="/get-csv">download csv</a>)<br/>
+            {% for track in tracks %}
+              {{ track }}<br/>
+            {% endfor %}  
+          </div>        
+        </div>
+        <div class="tab-pane fade pt-2" id="nav-info" role="tabpanel" aria-labelledby="nav-info-tab">
+          <p>Title: {{ title }}</p>
+          <p>Description: {{ description }}</p>
+          <p>Owner: {{ owner }}</p>
+          <p>Link: <a href="https://open.spotify.com/playlist/{{ id }}" target="_blank">https://open.spotify.com/playlist/{{ id }}</a></p>
+          <p>Tracks: {{ tracks|length }}</p>
+          <p>Id: {{ id }}</p>
+          <p><img src="{{ playlist_image }}" class="img-thumbnail" width="150px"/></p>
+        </div>
+      </div>
+{% endblock %}
