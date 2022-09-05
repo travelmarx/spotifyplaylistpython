@@ -230,15 +230,12 @@ az group create -g $RESOURCE_GROUP -l $LOCATION
 ```bash
 docker build --pull \
   --file "./Dockerfile" \
-  --tag "spotifyplaylistpython:latest" . 
+  --tag "$REGISTRY_NAME/spotifyplaylistpython:latest" . 
 
 docker image push $REGISTRY_NAME/spotifyplaylistpython:latest
 ```
 
 When the target container registry was Azure Container Registry, we used the [az acr build](https://docs.microsoft.com/cli/azure/acr#az-acr-build) command to build and push into the registry. With Docker Hub, we'll use Docker CLI instead and do it with two separate commands, the [docker build](https://docs.docker.com/engine/reference/commandline/build/) command and the [docker image push](https://docs.docker.com/engine/reference/commandline/image_push/) command.
-
-> **Note**
-> You could avoid building local by referencing the GitHub repo and doing the build and push in [Azure Cloud Shell](https://docs.microsoft.com/en-us/azure/cloud-shell/overview). In that case, open a Cloud Shell, set the variables as shown above, and then use `docker build https://github.com/travelmarx/spotifyplaylistpython.git` to build and `docker image push` to push.
 
 **Step 6.** Deploy to Azure App Service as a container coming from a public Docker Hub image. If it's a private image, use a variation of these instructions specifying username and password. See the [az webapp create](https://docs.microsoft.com/cli/azure/webapp#az-webapp-create) command documentation.
 
@@ -273,6 +270,8 @@ az webapp config appsettings set \
   --settings SPOTIPY_CLIENT_ID=<spotify-client-id> SPOTIPY_CLIENT_SECRET=<spotify-client-secret> DEFAULT_PLAYLIST=5HyEKEpzQU6MxxqeaDIHH3
 ```
 
+> **Note**
+> You could use the `az webapp` commands in the [Azure Cloud Shell](https://docs.microsoft.com/en-us/azure/cloud-shell/overview) if you don't have Azure CLI installed locally. In this scenario, open a Cloud Shell, set the variables as shown above, and then run the commands as shown.
 
 ## Build and run locally, and optionally deploy to App Service
 
@@ -457,7 +456,15 @@ If you haven't done so already, create a [Docker Hub](https://hub.docker.com/rep
 
 #### Add Docker files to the project and push image to a registry
 
-You can do this with Visual Studio Code extension task "Docker: Add Docker files to Workspace". Hit **F1** or **SHIFT** + **CTRL** + **P** to bring up the command palette and search for the task. Select **YES** to add composer files. This should add the following files:
+You can do this with Visual Studio Code extension task "Docker: Add Docker files to Workspace". 
+
+1. Use **F1** or **SHIFT** + **CTRL** + **P** to bring up the command palette and search for the task "Docker: Add Docker files to Workspace". 
+1. Select *Python: Flask* for application platform.
+1. Select *app.py* for entry point.
+1. Select *5002* for port the app listens on.
+1. Select *Yes* for include optional Docker Compose files.
+
+The task adds the following files to the project:
 
 * *Dockerfile* - Used when running the `docker build` command.
 * *.dockerignore* - Contains rules excluding what gets copied to the container during build.
