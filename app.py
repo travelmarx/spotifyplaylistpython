@@ -66,11 +66,10 @@ def index():
         tracks=track_list, image_urls=image_url_list, playlist_image=playlist_image, 
         description=playlist_desc, owner=playlist_owner)
 
-@app.route('/get-tracks/', defaults={'playlist_id': DEFAULT_PLAYLIST})
-@app.route("/get-csv")
-def get_csv():
+@app.route('/get-csv/', defaults={'playlist_id': DEFAULT_PLAYLIST})
+@app.route("/get-csv/<string:playlist_id>")
+def get_csv(playlist_id):
 
-    playlist_id = DEFAULT_PLAYLIST
     track_list = []
     playlist = sp.playlist(playlist_id=playlist_id, fields="name,tracks.items(track(name), track(artists(name)))")
     for idx, item in enumerate(playlist['tracks']['items']):
