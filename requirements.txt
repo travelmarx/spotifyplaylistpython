@@ -1,4 +1,5 @@
 Flask
 Flask-WTF
+Flask-Cors
 gunicorn
 spotipy

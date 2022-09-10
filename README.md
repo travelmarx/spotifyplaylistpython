@@ -2,7 +2,7 @@
 
 This Python web app reads a Spotify playlist ID and returns a visual and textual summary of the tracks in the playlist. It uses [Flask](https://flask.palletsprojects.com/en/2.1.x/), a micro web framework written in Python.
 
-The code was designed for use in Azure as an App Service web site (free tier service). (Specifically, the Python web app code is built into a Docker container and run on App Service.) However, the code is general enough to be used with other cloud services or situations. Or, you can just run the code locally and still read playlists without deploying the code to a cloud service.
+The code was designed for use in Azure, running as a container in App Service (free tier service). (Specifically, the Python web app code is built into a Docker container and run on App Service.) However, the code is general enough to be used with other cloud services or situations. Or, you can just run the code locally and still read playlists without deploying the code to a cloud service.
 
 We also show how to run this sample code as well as what went into building the sample, if you are curious. The [Spotipy](https://spotipy.readthedocs.io/en/master/) lightweight Python library is used to interface with Spotify's Web API. It requires a client id and secret, which you can get from the [Spotify Web API Tutorial](https://developer.spotify.com/documentation/web-api/quick-start/).
 
@@ -12,21 +12,22 @@ Sections:
 
 * [Build in Azure and deploy to App Service with Managed Identity to Access Azure Container Registry](#build-in-azure-and-deploy-to-app-service-with-managed-identity-to-access-azure-container-registry) - Cost: a few dollars a month in Azure.
 
-* [Build and deploy to App Service with Docker Hub](#build-and-deploy-to-app-service-with-docker-hub) - Cost: using free tier App Service and Docker Hub (personal) to host image won't cost anything in Azure.
+* [Build and deploy to App Service with Docker Hub](#build-and-deploy-to-app-service-with-docker-hub) - Cost: using free tier App Service and Docker Hub (personal) to host image won't cost anything in either services.
 
-* [Build and run locally, and optionally deploy to App Service](#build-and-run-locally-and-optionally-deploy-to-app-service) - Cost: doesn't use Azure.
+* [Build and run locally, and optionally deploy to App Service](#build-and-run-locally-and-optionally-deploy-to-app-service) - Cost: doesn't use Azure or Docker Hub. You must have Docker installed locally.
 
 * [Creating the Python web app to connect to Spotify](#creating-the-python-web-app-to-connect-to-spotify) - This discusses how this sample app was created.
 
-* [App Service configuration](#app-service-configuration)
+* [App Service configuration](#app-service-configuration) - Miscellaneous notes about running in App Service.
 
 ## Build in Azure and deploy to App Service with Azure Container Registry
 
 Requirements:
 
+* [Git for Windows](https://git-scm.com/download/win)
 * [Spotify API key](https://developer.spotify.com/documentation/web-api/quick-start/)
-* [Azure subscription](https://azure.microsoft.com/free/)
-* [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) installed locally **OR** you can do everything with the [Azure Cloud Shell](https://docs.microsoft.com/en-us/azure/cloud-shell/overview) which doesn't require anything installed locally.
+* [Azure subscription](https://azure.microsoft.com/free/) - if you choose to run in Azure.
+* [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) installed locally **OR** you can do everything with the [Azure Cloud Shell](https://docs.microsoft.com/en-us/azure/cloud-shell/overview) which doesn't require anything installed locally. 
 
 These steps create an Azure Container Registry, build a container image in the registry, and deploy the image to App Service. Registry admin credentials are used by the App Service to pull images. 
 
@@ -36,7 +37,7 @@ Notes about the steps:
 
 * We show commands with Bash shell. If you are using another type of shell, you're environment variable definitions and command continuations characters will be different. For example, in the Windows command shell set a variable with `SET LOCATION=eastus`, list a variable with `echo %LOCATION%` and the line continuation character is a back tick ("\`"). In PowerShell, set a variable with `$LOCATION='eastus'` and the line continuation character is a back tick ("\`").
 
-* Registry and website names must be unique. You may have to vary the ending to find unique names. For example, "spotifyplaylist99". (Resources groups, container image, and App Service plan names in a registry don't have to be unique across Azure.)
+* Registry and website names must be unique. You may have to vary the names suggested here with an ending to find unique names. For example, "spotifyplaylist99". (Resources groups, container image, and App Service plan names in a registry don't have to be unique across Azure.)
 
 **Step 1.** Clone this sample repo.
 
@@ -45,9 +46,11 @@ git clone <this-repo-name>
 cd <this-repo-name>
 ```
 
-**Step 2.** Create environment variables we'll use in subsequent commands.
+Optionally, [fork](https://docs.github.com/get-started/quickstart/fork-a-repo) the repo to your own GitHub account and clone that repo.
 
-Change these variables as needed for your situation.
+**Step 2.** Create environment variables you'll use in subsequent commands.
+
+Change these variables as appropriate for your situation.
 
 ```bash
 export RESOURCE_GROUP=myresourcegroup
@@ -111,7 +114,7 @@ az webapp create \
 Keep in mind:
 
 * The registry source is "Azure Container Registry" in your subscription.
-* The App Service uses the admin credentials of the Registry to pull the image. The variant below of these steps uses managed identity.
+* The App Service uses the admin credentials of the Registry to pull the image. A variant below of these steps uses managed identity.
 * Check configuration settings with `az webapp config container show -n $SITE_NAME -g $RESOURCE_GROUP`.
 * It may take a few moments for the website to build and deploy. Check to the deployment logs to keep an eye on when the site is ready or any problems during the build.
 
@@ -124,13 +127,15 @@ az webapp config appsettings set \
   --settings SPOTIPY_CLIENT_ID=<spotify-client-id> SPOTIPY_CLIENT_SECRET=<spotify-client-secret> DEFAULT_PLAYLIST=5HyEKEpzQU6MxxqeaDIHH3
 ```
 
+The environment variables passed in our used in the code.
+
 **Step 7.** Browse the website.
 
 For the parameters used above, go to `https://spotifyplaylist123abc.azurewebsites.net`. Change the URL to match your App Service name. The first time the web site comes up it may take some time.
 
 ## Build in Azure and deploy to App Service with Managed Identity to Access Azure Container Registry
 
-In this variant of using Azure Container Registry, we use managed identity so that the App Service can pull images from the registry.
+In this variant of using Azure Container Registry, we use managed identity so that the App Service can pull images from the registry. See the requirements above.
 
 **Steps 1 - 3**, the same as above.
 
@@ -194,7 +199,18 @@ az webapp config appsettings set \
   --settings SPOTIPY_CLIENT_ID=<spotify-client-id> SPOTIPY_CLIENT_SECRET=<spotify-client-secret> DEFAULT_PLAYLIST=5HyEKEpzQU6MxxqeaDIHH3
 ```
 
-## Build and deploy to App Service with Docker Hub
+## Build and deploy a App Service with Docker Hub
+
+You might choose Docker Hub (personal) over Azure Container Registry to save money hosting the registry.
+
+Requirements:
+
+* [Git for Windows](https://git-scm.com/download/win)
+* [Spotify API key](https://developer.spotify.com/documentation/web-api/quick-start/)
+* [Azure subscription](https://azure.microsoft.com/free/) - if you choose to run in Azure.
+* [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) installed locally **OR** you can do everything with the [Azure Cloud Shell](https://docs.microsoft.com/en-us/azure/cloud-shell/overview) which doesn't require anything installed locally.* [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed locally.
+* [Docker Hub](https://hub.docker.com/) account.
+
 
 **Step 1.** Clone this sample repo.
 
@@ -203,9 +219,11 @@ git clone <this-repo-name>
 cd <this-repo-name>
 ```
 
+Optionally, [fork](https://docs.github.com/get-started/quickstart/fork-a-repo) the repo to your own GitHub account and clone that repo.
+
 **Step 2.** Create environment variables we'll use in subsequent commands.
 
-Change these variables as needed for your situation. Note that here the container name references Docker Hub user registry and not Azure Container Registry.
+Change these variables as appropriate for your situation. Note that here the container name references Docker Hub user registry and not Azure Container Registry.
 
 ```bash
 export RESOURCE_GROUP=myresourcegroup
@@ -235,7 +253,7 @@ docker build --pull \
 docker image push $REGISTRY_NAME/spotifyplaylistpython:latest
 ```
 
-When the target container registry was Azure Container Registry, we used the [az acr build](https://docs.microsoft.com/cli/azure/acr#az-acr-build) command to build and push into the registry. With Docker Hub, we'll use Docker CLI instead and do it with two separate commands, the [docker build](https://docs.docker.com/engine/reference/commandline/build/) command and the [docker image push](https://docs.docker.com/engine/reference/commandline/image_push/) command.
+When the target container registry was Azure Container Registry, we used the [az acr build](https://docs.microsoft.com/cli/azure/acr#az-acr-build) command to build and push into the registry. With Docker Hub, we'll use Docker CLI instead and do it with two separate commands, the [docker build](https://docs.docker.com/engine/reference/commandline/build/) command and the [docker image push](https://docs.docker.com/engine/reference/commandline/image_push/) command. Type `docker` to make sure docker is installed.
 
 **Step 6.** Deploy to Azure App Service as a container coming from a public Docker Hub image. If it's a private image, use a variation of these instructions specifying username and password. See the [az webapp create](https://docs.microsoft.com/cli/azure/webapp#az-webapp-create) command documentation.
 
@@ -273,18 +291,19 @@ az webapp config appsettings set \
 > **Note**
 > You could use the `az webapp` commands in the [Azure Cloud Shell](https://docs.microsoft.com/en-us/azure/cloud-shell/overview) if you don't have Azure CLI installed locally. In this scenario, open a Cloud Shell, set the variables as shown above, and then run the commands as shown.
 
-## Build and run locally, and optionally deploy to App Service
+## Build and run locally
 
 Building locally requires more setup time but is a good investment when you start to modify code and want to test locally before deployment. Or, if you don't want to deploy anything to the cloud and running locally is good enough, then follow these steps.
 
 Requirements:
 
+* [Git for Windows](https://git-scm.com/download/win)
 * [Spotify API key](https://developer.spotify.com/documentation/web-api/quick-start/)
-* [Azure subscription](https://azure.microsoft.com/free/)
-* [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
-* [Docker Extension](https://code.visualstudio.com/docs/containers/overview)
-* [Azure Container Registry](https://azure.microsoft.com/services/container-registry/) or [Docker Hub](https://hub.docker.com/) or any other registry
+* [Docker Hub](https://hub.docker.com/) or any other registry
 * [Docker Desktop](https://www.docker.com/products/docker-desktop/) running
+* Instead of using Docker CLI (installed with Docker Desktop), you can use Visual Studio Code with:
+  * [Docker Extension](https://code.visualstudio.com/docs/containers/overview)
+  * [Azure Container Registry](https://azure.microsoft.com/services/container-registry/) 
 
 
 **Step 1.** Get the code.
@@ -360,7 +379,7 @@ Go to `http://127.0.0.1:5002`.
 
 ## Create the Python web app to connect to Spotify
 
-This section is for those interested in how we arrived at the code in this repo. This is not the only way to do, rather how we muddled our way through it.
+This section is for those interested in how we developed the code in this repo. This is not the only way to do, rather how we approached it.
 
 We'll bootstrap the process of installation using a virtual environment. If you plan to run locally only with containers, the virtual environment won't be used. However, we find that when working with Python and containers, we often make make sure the code works both in a virtual environment and running in a container. The iteration cycle of code-test-fix is slightly quicker in virtual environment.
 
@@ -402,8 +421,6 @@ flask run
 ```
 
 In bash, set an environment variable like so `FLASK_APP=hello`. To enable all development features, set the `FLASK_ENV` to `development` before running.
-
-### Create code
 
 ### Generate a secret key
 

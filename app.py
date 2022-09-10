@@ -4,9 +4,11 @@ import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 from flask import Flask, Response, render_template, request, jsonify
 from flask_wtf.csrf import CSRFProtect
+from flask_cors import CORS
 from requests import RequestException
 
 app = Flask(__name__, static_folder='static')
+CORS(app)
 csrf = CSRFProtect(app)
 
 # If these environment variables aren't set, can't run
@@ -92,7 +94,6 @@ def get_tracks(playlist_id):
         track_list[idx] = {"name": str(item['track']['name']), "artist": str(item['track']['artists'][0]['name']), "thumb" : str(item['track']['album']['images'][1]['url'])}
 
     response = jsonify(track_list)
-    response.headers.add('Access-Control-Allow-Origin', '*')
 
     return response
 
