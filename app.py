@@ -66,6 +66,7 @@ def index():
         tracks=track_list, image_urls=image_url_list, playlist_image=playlist_image, 
         description=playlist_desc, owner=playlist_owner)
 
+@app.route('/get-tracks/', defaults={'playlist_id': DEFAULT_PLAYLIST})
 @app.route("/get-csv")
 def get_csv():
 
@@ -96,9 +97,3 @@ def get_tracks(playlist_id):
     response = jsonify(track_list)
 
     return response
-
-
-@app.route("/test")
-def get_test():
-    
-    return render_template('test.html')
