@@ -208,7 +208,8 @@ Requirements:
 * [Git for Windows](https://git-scm.com/download/win)
 * [Spotify API key](https://developer.spotify.com/documentation/web-api/quick-start/)
 * [Azure subscription](https://azure.microsoft.com/free/) - if you choose to run in Azure.
-* [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) installed locally **OR** you can do everything with the [Azure Cloud Shell](https://docs.microsoft.com/en-us/azure/cloud-shell/overview) which doesn't require anything installed locally.* [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed locally.
+* [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) installed locally **OR** you can do everything with the [Azure Cloud Shell](https://docs.microsoft.com/en-us/azure/cloud-shell/overview) which doesn't require anything installed locally.
+* [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed locally.
 * [Docker Hub](https://hub.docker.com/) account.
 
 
