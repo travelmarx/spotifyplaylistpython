@@ -317,7 +317,7 @@ You can [fork](https://docs.github.com/get-started/quickstart/fork-a-repo) the r
 
 **Step 2.** Build the image.
 
-You can use the VS Code command palette, the VS Code Docker extension UI, or use Docker commands directly to work with images and containers. Here, we'll show Docker commands. Start in the root of the project directory and run this in a Bash shell:
+You can use the VS Code command palette, the VS Code Docker extension UI, or use Docker commands directly to work with images and containers. Here, we'll show Docker commands assuming you are not using VS Code. Start in the root of the project directory and run this in a Bash shell:
 
 ```bash
 docker build --pull \
