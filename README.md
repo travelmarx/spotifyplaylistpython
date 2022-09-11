@@ -2,6 +2,8 @@
 
 This Python web app reads a Spotify playlist ID and returns a visual and textual summary of the tracks in the playlist. It uses [Flask](https://flask.palletsprojects.com/en/2.1.x/), a micro web framework written in Python.
 
+For an example of this code in action, see the blog post [Visualizing a Spotify Playlist - Simple Python Flask Web App Container Running Locally or in Azure](https://blog.travelmarx.com/2022/09/visualizing-spotify-playlist-simple-python-flask-web-app-container.html).
+
 The code was designed for use in Azure, running as a container in App Service (free tier service). (Specifically, the Python web app code is built into a Docker container and run on App Service.) However, the code is general enough to be used with other cloud services or situations. Or, you can just run the code locally and still read playlists without deploying the code to a cloud service.
 
 We also show how to run this sample code as well as what went into building the sample, if you are curious. The [Spotipy](https://spotipy.readthedocs.io/en/master/) lightweight Python library is used to interface with Spotify's Web API. It requires a client id and secret, which you can get from the [Spotify Web API Tutorial](https://developer.spotify.com/documentation/web-api/quick-start/).
@@ -12,9 +14,11 @@ Sections:
 
 * [Build in Azure and deploy to App Service with Managed Identity to Access Azure Container Registry](#build-in-azure-and-deploy-to-app-service-with-managed-identity-to-access-azure-container-registry) - Cost: a few dollars a month in Azure.
 
-* [Build and deploy to App Service with Docker Hub](#build-and-deploy-a-app-service-with-docker-hub) - Cost: using free tier App Service and Docker Hub (personal) to host image won't cost anything in either services.
+* [Build and deploy to App Service with Docker Hub](#build-and-deploy-a-app-service-with-docker-hub) - Cost: 0. Uses free tier App Service and Docker Hub (personal) to host image won't cost anything in either services.
 
-* [Build and run locally](#build-and-run-locally) - Cost: doesn't use Azure or Docker Hub. You must have Docker installed locally.
+* [Build and run locally in a container](#build-and-run-locally-in-a-container) - Cost: 0. Doesn't use Azure or Docker Hub. You must have Docker installed locally.
+
+* [Build and run locally in a virtual environment](#build-and-run-locally-in-a-virtual-environment) - Cost: 0. Doesn't use Azure or Docker Hub.
 
 * [Creating the Python web app to connect to Spotify](#create-the-python-web-app-to-connect-to-spotify) - This discusses how this sample app was created.
 
@@ -24,7 +28,7 @@ Sections:
 
 Requirements:
 
-* [Git for Windows](https://git-scm.com/download/win)
+* [Git for Windows](https://git-scm.com/download/win) - if clone the repo, otherwise you can download it.
 * [Spotify API key](https://developer.spotify.com/documentation/web-api/quick-start/)
 * [Azure subscription](https://azure.microsoft.com/free/) - if you choose to run in Azure.
 * [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli) installed locally **OR** you can do everything with the [Azure Cloud Shell](https://docs.microsoft.com/azure/cloud-shell/overview) which doesn't require anything installed locally. 
@@ -46,7 +50,7 @@ git clone <this-repo-name>
 cd <this-repo-name>
 ```
 
-Optionally, [fork](https://docs.github.com/get-started/quickstart/fork-a-repo) the repo to your own GitHub account and clone that repo.
+You can [fork](https://docs.github.com/get-started/quickstart/fork-a-repo) the repo to your own GitHub account and clone that repo. Or, you can just download the code directly as a zip.
 
 **Step 2.** Create environment variables you'll use in subsequent commands.
 
@@ -205,7 +209,7 @@ You might choose Docker Hub (personal) over Azure Container Registry to save mon
 
 Requirements:
 
-* [Git for Windows](https://git-scm.com/download/win)
+* [Git for Windows](https://git-scm.com/download/win) -  - if clone the repo, otherwise you can download it.
 * [Spotify API key](https://developer.spotify.com/documentation/web-api/quick-start/)
 * [Azure subscription](https://azure.microsoft.com/free/) - if you choose to run in Azure.
 * [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli) installed locally **OR** you can do everything with the [Azure Cloud Shell](https://docs.microsoft.com/azure/cloud-shell/overview) which doesn't require anything installed locally.
@@ -220,7 +224,7 @@ git clone <this-repo-name>
 cd <this-repo-name>
 ```
 
-Optionally, [fork](https://docs.github.com/get-started/quickstart/fork-a-repo) the repo to your own GitHub account and clone that repo.
+You can [fork](https://docs.github.com/get-started/quickstart/fork-a-repo) the repo to your own GitHub account and clone that repo. Or, you can just download the code directly as a zip.
 
 **Step 2.** Create environment variables we'll use in subsequent commands.
 
@@ -292,15 +296,14 @@ az webapp config appsettings set \
 > **Note**
 > You could use the `az webapp` commands in the [Azure Cloud Shell](https://docs.microsoft.com/azure/cloud-shell/overview) if you don't have Azure CLI installed locally. In this scenario, open a Cloud Shell, set the variables as shown above, and then run the commands as shown.
 
-## Build and run locally
+## Build and run locally in a container
 
-Building locally requires more setup time but is a good investment when you start to modify code and want to test locally before deployment. Or, if you don't want to deploy anything to the cloud and running locally is good enough, then follow these steps.
+Building locally requires more setup time but is a good investment when you start to modify code and want to test locally before deployment. Or, if you don't want to deploy anything to the cloud and running locally is good enough, then follow these steps. These steps run a container locally. See the next section for using a virtual environment.
 
 Requirements:
 
-* [Git for Windows](https://git-scm.com/download/win)
+* [Git for Windows](https://git-scm.com/download/win) -  - if clone the repo, otherwise you can download it.
 * [Spotify API key](https://developer.spotify.com/documentation/web-api/quick-start/)
-* [Docker Hub](https://hub.docker.com/) or any other registry
 * [Docker Desktop](https://www.docker.com/products/docker-desktop/) running
 * Instead of using Docker CLI (installed with Docker Desktop), you can use Visual Studio Code with:
   * [Docker Extension](https://code.visualstudio.com/docs/containers/overview)
@@ -313,6 +316,8 @@ Requirements:
 git clone <this-repo-name>
 cd <this-repo-name>
 ```
+
+You can [fork](https://docs.github.com/get-started/quickstart/fork-a-repo) the repo to your own GitHub account and clone that repo. Or, you can just download the code directly as a zip.
 
 **Step 2.** Build the image.
 
@@ -376,7 +381,66 @@ docker exec --interactive --tty <friendly-name-of-container> ls -al
 
 **Step 5.** Browse the local site.
 
-Go to `http://127.0.0.1:5002`.
+Go to [http://127.0.0.1:5002](http://127.0.0.1:5002).
+
+## Build and run locally in a virtual environment
+
+These steps don't require a container and just use a virtual environment. These are probably the simplest way to run the code.
+
+Requirements:
+
+* [Git for Windows](https://git-scm.com/download/win) - if clone the repo, otherwise you can download it.
+* [Spotify API key](https://developer.spotify.com/documentation/web-api/quick-start/)
+
+**Step 1.** Get the code.
+
+```bash
+git clone <this-repo-name>
+cd <this-repo-name>
+```
+
+You can [fork](https://docs.github.com/get-started/quickstart/fork-a-repo) the repo to your own GitHub account and clone that repo. Or, you can just download the code directly as a zip.
+
+**Step 2.** Create a virtual directory.
+
+```bash
+python3 -m venv .venv
+```
+
+**Step 3.** Activate the virtual environment.
+
+```bash
+source .venv/Scripts/activate
+```
+
+**Step 4.** Install requirements.
+
+```bash
+pip install -r requirements.txt
+```
+
+**Step 5.** Create an *.env* file based on the *.env.example* file.
+
+```
+SPOTIPY_CLIENT_ID=<spotify-client-id>
+SPOTIPY_CLIENT_SECRET=<spotify-client-secret>
+DEFAULT_PLAYLIST=6rY4wDAA1Ueai9xSPFXCpa
+FLASK_ENV=development
+FLASK_APP=app.py
+```
+
+Fil in the `\<spotify-client-id>` and `\<spotify-client-secret>` with your values.
+
+**Step 6.** Start the server.
+
+```bash
+flask run
+```
+
+**Step 7.** Browse the local site.
+
+Go to [http://127.0.0.1:5002](http://127.0.0.1:5002).
+
 
 ## Create the Python web app to connect to Spotify
 
