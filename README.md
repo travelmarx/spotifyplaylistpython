@@ -28,7 +28,7 @@ Sections:
 
 Requirements:
 
-* [Git for Windows](https://git-scm.com/download/win) - if clone the repo, otherwise you can download it.
+* [Git for Windows](https://git-scm.com/download/win) - if you clone the repo, otherwise you can download it.
 * [Spotify API key](https://developer.spotify.com/documentation/web-api/quick-start/)
 * [Azure subscription](https://azure.microsoft.com/free/) - if you choose to run in Azure.
 * [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli) installed locally **OR** you can do everything with the [Azure Cloud Shell](https://docs.microsoft.com/azure/cloud-shell/overview) which doesn't require anything installed locally. 
@@ -209,7 +209,7 @@ You might choose Docker Hub (personal) over Azure Container Registry to save mon
 
 Requirements:
 
-* [Git for Windows](https://git-scm.com/download/win) -  - if clone the repo, otherwise you can download it.
+* [Git for Windows](https://git-scm.com/download/win) - if you clone the repo, otherwise you can download it.
 * [Spotify API key](https://developer.spotify.com/documentation/web-api/quick-start/)
 * [Azure subscription](https://azure.microsoft.com/free/) - if you choose to run in Azure.
 * [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli) installed locally **OR** you can do everything with the [Azure Cloud Shell](https://docs.microsoft.com/azure/cloud-shell/overview) which doesn't require anything installed locally.
@@ -302,7 +302,7 @@ Building locally requires more setup time but is a good investment when you star
 
 Requirements:
 
-* [Git for Windows](https://git-scm.com/download/win) -  - if clone the repo, otherwise you can download it.
+* [Git for Windows](https://git-scm.com/download/win) - if you clone the repo, otherwise you can download it.
 * [Spotify API key](https://developer.spotify.com/documentation/web-api/quick-start/)
 * [Docker Desktop](https://www.docker.com/products/docker-desktop/) running
 * Instead of using Docker CLI (installed with Docker Desktop), you can use Visual Studio Code with:
@@ -389,7 +389,7 @@ These steps don't require a container and just use a virtual environment. These 
 
 Requirements:
 
-* [Git for Windows](https://git-scm.com/download/win) - if clone the repo, otherwise you can download it.
+* [Git for Windows](https://git-scm.com/download/win) - if you clone the repo, otherwise you can download it.
 * [Spotify API key](https://developer.spotify.com/documentation/web-api/quick-start/)
 
 **Step 1.** Get the code.
