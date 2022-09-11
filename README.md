@@ -364,7 +364,7 @@ At this point, you have a *.env* file in your project, but it won't be copied in
 
 If you are using Visual Studio Code, you can see the see the running images in the **CONTAINERS** section of the Docker extension. You can also see and work with the container in the Docker Desktop application.
 
-The `-it` flag means runs interactively. You can also run detached. See `docker run --help`.
+The `-it` option means runs interactively. You can also run detached. See `docker run --help`.
 
 **Step 4.** Check that the running container.
 
