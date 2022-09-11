@@ -304,11 +304,7 @@ Requirements:
 
 * [Git for Windows](https://git-scm.com/download/win) - if you clone the repo, otherwise you can download it.
 * [Spotify API key](https://developer.spotify.com/documentation/web-api/quick-start/)
-* [Docker Desktop](https://www.docker.com/products/docker-desktop/) running
-* Instead of using Docker CLI (installed with Docker Desktop), you can use Visual Studio Code with:
-  * [Docker Extension](https://code.visualstudio.com/docs/containers/overview)
-  * [Azure Container Registry](https://azure.microsoft.com/services/container-registry/) 
-
+* [Docker Desktop](https://www.docker.com/products/docker-desktop/) running.
 
 **Step 1.** Get the code.
 
