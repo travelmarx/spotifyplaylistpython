@@ -362,7 +362,7 @@ docker run -it \
 
 At this point, you have a *.env* file in your project, but it won't be copied into the container because the *.dockerignore* file has a line to ignore *.env*. (So does the *.gitignore* file so that it won't get checked into source.) We use the *.env* file to pass in environment variables to the container on the command line with the `--env-file` option. Environment variables contain keys and secrets needed in the program. We don't want them stored inside the container or in a repo checked in to GitHub.
 
-In Visual Studio Code, you can see the see the running images in the **CONTAINERS** section of the Docker extension. You can also see and work with the container in the Docker Desktop application.
+If you are using Visual Studio Code, you can see the see the running images in the **CONTAINERS** section of the Docker extension. You can also see and work with the container in the Docker Desktop application.
 
 The `-it` runs interactively. You can also run detached. See `docker run --help`.
 
