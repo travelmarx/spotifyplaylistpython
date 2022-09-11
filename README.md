@@ -439,7 +439,7 @@ flask run
 
 **Step 7.** Browse the local site.
 
-Go to [http://127.0.0.1:5002](http://127.0.0.1:5002).
+Go to [http://127.0.0.1:5000](http://127.0.0.1:5000).
 
 
 ## Create the Python web app to connect to Spotify
