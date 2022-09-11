@@ -27,7 +27,7 @@ Requirements:
 * [Git for Windows](https://git-scm.com/download/win)
 * [Spotify API key](https://developer.spotify.com/documentation/web-api/quick-start/)
 * [Azure subscription](https://azure.microsoft.com/free/) - if you choose to run in Azure.
-* [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) installed locally **OR** you can do everything with the [Azure Cloud Shell](https://docs.microsoft.com/en-us/azure/cloud-shell/overview) which doesn't require anything installed locally. 
+* [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli) installed locally **OR** you can do everything with the [Azure Cloud Shell](https://docs.microsoft.com/azure/cloud-shell/overview) which doesn't require anything installed locally. 
 
 These steps create an Azure Container Registry, build a container image in the registry, and deploy the image to App Service. Registry admin credentials are used by the App Service to pull images. 
 
@@ -208,7 +208,7 @@ Requirements:
 * [Git for Windows](https://git-scm.com/download/win)
 * [Spotify API key](https://developer.spotify.com/documentation/web-api/quick-start/)
 * [Azure subscription](https://azure.microsoft.com/free/) - if you choose to run in Azure.
-* [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) installed locally **OR** you can do everything with the [Azure Cloud Shell](https://docs.microsoft.com/en-us/azure/cloud-shell/overview) which doesn't require anything installed locally.
+* [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli) installed locally **OR** you can do everything with the [Azure Cloud Shell](https://docs.microsoft.com/azure/cloud-shell/overview) which doesn't require anything installed locally.
 * [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed locally.
 * [Docker Hub](https://hub.docker.com/) account.
 
@@ -290,7 +290,7 @@ az webapp config appsettings set \
 ```
 
 > **Note**
-> You could use the `az webapp` commands in the [Azure Cloud Shell](https://docs.microsoft.com/en-us/azure/cloud-shell/overview) if you don't have Azure CLI installed locally. In this scenario, open a Cloud Shell, set the variables as shown above, and then run the commands as shown.
+> You could use the `az webapp` commands in the [Azure Cloud Shell](https://docs.microsoft.com/azure/cloud-shell/overview) if you don't have Azure CLI installed locally. In this scenario, open a Cloud Shell, set the variables as shown above, and then run the commands as shown.
 
 ## Build and run locally
 
@@ -497,7 +497,7 @@ To see how to create and push a container image to Docker Hub, see [Build and de
 
 If you are using VS Code, Make sure you are logged into Azure in the **REGISTRIES** section of the Docker extension.
 
-With Azure Container Registry and using Docker CLI push command, you might need to enable ACR Admin user. For more information, see [Authentication Overview](https://docs.microsoft.com/en-us/azure/container-registry/container-registry-authentication) for Azure Container Registry.
+With Azure Container Registry and using Docker CLI push command, you might need to enable ACR Admin user. For more information, see [Authentication Overview](https://docs.microsoft.com/azure/container-registry/container-registry-authentication) for Azure Container Registry.
 
 First, try `docker login` and see if that gives you the permission you need, authorizing with existing credentials. If not, specify username and password with the command:
 
