@@ -14,7 +14,7 @@ Sections:
 
 * [Build and deploy to App Service with Docker Hub](#build-and-deploy-a-app-service-with-docker-hub) - Cost: using free tier App Service and Docker Hub (personal) to host image won't cost anything in either services.
 
-* [Build and run locally, and optionally deploy to App Service](#build-and-run-locally) - Cost: doesn't use Azure or Docker Hub. You must have Docker installed locally.
+* [Build and run locally](#build-and-run-locally) - Cost: doesn't use Azure or Docker Hub. You must have Docker installed locally.
 
 * [Creating the Python web app to connect to Spotify](#create-the-python-web-app-to-connect-to-spotify) - This discusses how this sample app was created.
 
