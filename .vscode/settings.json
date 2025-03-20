@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/806b4b82-ae12-4b4f-8de4-7f57ebb85a85/resourceGroups/spotifyapp-rg/providers/Microsoft.Web/sites/spotifyplaylisttravelmarx",
+    "appService.deploySubpath": "."
+}
